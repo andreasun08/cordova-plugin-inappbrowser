@@ -436,6 +436,9 @@ public class InAppBrowser extends CordovaPlugin {
             HashMap<String, String> map = new HashMap<String, String>();
             StringTokenizer features = new StringTokenizer(optString, ",");
             StringTokenizer option;
+            //for custom headers, it should in the following format:
+            // 'header=value,header=value,header=value,...' 
+            //similar to in-app-browser options
             while(features.hasMoreElements()) {
                 option = new StringTokenizer(features.nextToken(), "=");
                 if (option.hasMoreElements()) {
@@ -466,7 +469,7 @@ public class InAppBrowser extends CordovaPlugin {
             StringTokenizer features = new StringTokenizer(headerString, ",");
             StringTokenizer option;
             while(features.hasMoreElements()) {
-                option = new StringTokenizer(features.nextToken(), ":");
+                option = new StringTokenizer(features.nextToken(), "=");
                 if (option.hasMoreElements()) {
                     String key = option.nextToken();
                     String value = option.nextToken();

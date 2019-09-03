@@ -975,12 +975,14 @@ static CDVUIInAppBrowser* instance = nil;
     //NSURLRequest* request = [NSURLRequest requestWithURL:url];
 
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-
+    //for custom headers, it should in the following format:
+    // 'header=value,header=value,header=value,...' 
+    //similar to in-app-browser options
     //[request setValue:@"1" forHTTPHeaderField:@"horror"];
     NSArray* pairs = [headers componentsSeparatedByString:@","];
 
     for (NSString* pair in pairs) {
-        NSArray* keyvalue = [pair componentsSeparatedByString:@":"];
+        NSArray* keyvalue = [pair componentsSeparatedByString:@"="];
 
         if ([keyvalue count] == 2) {
             NSString* key = [[keyvalue objectAtIndex:0] lowercaseString];
