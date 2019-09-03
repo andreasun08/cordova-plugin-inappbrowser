@@ -150,7 +150,7 @@ public class InAppBrowser extends CordovaPlugin {
     private String[] allowedSchemes;
     private InAppBrowserClient currentClient;
     
-    private Map <String, String> extraHeaders; //for additional custom request headers
+    private HashMap <String, String> extraHeaders; //for additional custom request headers
 
     /**
      * Executes the request and returns PluginResult.
@@ -460,12 +460,11 @@ public class InAppBrowser extends CordovaPlugin {
      * @param headerString
      * @return
      */
-    private Map<String, String> parseHeaders(String headerString) {
+    private HashMap<String, String> parseHeaders(String headerString) {
         if (headerString.equals(NULL)) {
-            Map<String, String> map = new HashMap<String, String>();
-            return map;
+            return null;
         } else {
-            Map<String, String> map = new HashMap<String, String>();
+            HashMap<String, String> map = new HashMap<String, String>();
             StringTokenizer features = new StringTokenizer(headerString, ",");
             StringTokenizer option;
             while(features.hasMoreElements()) {
