@@ -476,7 +476,10 @@ public class InAppBrowser extends CordovaPlugin {
                 option = new StringTokenizer(features.nextToken(), "=");
                 if (option.hasMoreElements()) {
                     String key = option.nextToken();
-                    String value = option.nextToken();
+                    String value = "";
+                    if (option.hasMoreElements()){
+                        value = option.nextToken();
+                    }
                     map.put(key, value);
                 }
             }
