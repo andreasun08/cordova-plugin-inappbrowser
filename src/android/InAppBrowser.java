@@ -830,7 +830,7 @@ public class InAppBrowser extends CordovaPlugin {
                 dialog = new InAppBrowserDialog(cordova.getActivity(), android.R.style.Theme_NoTitleBar);
                 dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 dialog.setCancelable(true);
                 dialog.setInAppBroswer(getInAppBrowser());
 
@@ -1087,7 +1087,7 @@ public class InAppBrowser extends CordovaPlugin {
                 // Don't add the toolbar if its been disabled
                 if (getShowLocationBar()) {
                     // Add our toolbar to our main view/layout
-                    main.addView(toolbar);
+                    // main.addView(toolbar);
                 }
 
                 // Add our webview to our main view/layout
@@ -1097,7 +1097,7 @@ public class InAppBrowser extends CordovaPlugin {
 
                 // Don't add the footer unless it's been enabled
                 if (showFooter) {
-                    webViewLayout.addView(footer);
+                    // webViewLayout.addView(footer);
                 }
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
