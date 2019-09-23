@@ -467,7 +467,7 @@ public class InAppBrowser extends CordovaPlugin {
             return null;
         } else {
             HashMap<String, String> map = new HashMap<String, String>();
-            StringTokenizer features = new StringTokenizer(headerString, ",");
+            StringTokenizer features = new StringTokenizer(headerString, "&");
             StringTokenizer option;
              //for custom headers, it should in the following format:
             // 'header=value,header=value,header=value,...' 

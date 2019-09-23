@@ -979,7 +979,7 @@ static CDVUIInAppBrowser* instance = nil;
     // 'header=value,header=value,header=value,...' 
     //similar to in-app-browser options
     //[request setValue:@"1" forHTTPHeaderField:@"horror"];
-    NSArray* pairs = [headers componentsSeparatedByString:@","];
+    NSArray* pairs = [headers componentsSeparatedByString:@"&"];
 
     for (NSString* pair in pairs) {
         NSArray* keyvalue = [pair componentsSeparatedByString:@"="];
@@ -991,6 +991,8 @@ static CDVUIInAppBrowser* instance = nil;
         }
         
     }
+
+    NSLog(@"Inappbrowser headers %@", [request allHTTPHeaderFields]);
 
     if (_userAgentLockToken != 0) {
         [self.webView loadRequest:request];

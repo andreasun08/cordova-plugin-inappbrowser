@@ -1097,7 +1097,7 @@ BOOL isExiting = FALSE;
     //for custom headers, it should in the following format:
     // 'header=value,header=value,header=value,...' 
     //similar to in-app-browser options
-    NSArray* pairs = [headers componentsSeparatedByString:@","];
+    NSArray* pairs = [headers componentsSeparatedByString:@"&"];
 
     for (NSString* pair in pairs) {
         NSArray* keyvalue = [pair componentsSeparatedByString:@"="];
@@ -1109,6 +1109,8 @@ BOOL isExiting = FALSE;
         }
         
     }
+
+    NSLog(@"Inappbrowser headers %@", [request allHTTPHeaderFields]);
 
     if (_userAgentLockToken != 0) {
         [self.webView loadRequest:request];
