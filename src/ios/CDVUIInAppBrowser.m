@@ -1145,10 +1145,10 @@ static CDVUIInAppBrowser* instance = nil;
 
 - (BOOL)shouldAutorotate
 {
-    if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(shouldAutorotate)]) {
-        return [self.orientationDelegate shouldAutorotate];
-    }
-    return YES;
+    // if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(shouldAutorotate)]) {
+    //     return [self.orientationDelegate shouldAutorotate];
+    // }
+    return NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -1162,11 +1162,11 @@ static CDVUIInAppBrowser* instance = nil;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(shouldAutorotateToInterfaceOrientation:)]) {
-        return [self.orientationDelegate shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
+    // if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(shouldAutorotateToInterfaceOrientation:)]) {
+    //     return [self.orientationDelegate shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    // }
 
-    return YES;
+    return NO;
 }
 
 @end
