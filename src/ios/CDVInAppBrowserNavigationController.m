@@ -40,7 +40,36 @@
     [bgToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [self.view addSubview:bgToolbar];
 
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(orientationChanged:)
+     name:UIDeviceOrientationDidChangeNotification
+     object:[UIDevice currentDevice]];
+
     [super viewDidLoad];
+}
+
+- (void) orientationChanged:(NSNotification *)note
+{
+    UIDevice * device = note.object;
+    switch(device.orientation)
+    {
+        case UIDeviceOrientationLandscapeLeft:
+        case UIDeviceOrientationLandscapeRight:
+        case UIDeviceOrientationPortraitUpsideDown:{
+            
+            /* start special animation */
+            NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+            [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+            [UINavigationController attemptRotationToDeviceOrientation];
+            [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+            };
+            break;
+            
+            
+        default:
+            break;
+    };
 }
 
 - (CGRect) invertFrameIfNeeded:(CGRect)rect {
@@ -60,16 +89,16 @@
     // if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(shouldAutorotate)]) {
     //     return [self.orientationDelegate shouldAutorotate];
     // }
-    return NO;
+    return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(supportedInterfaceOrientations)]) {
-        return [self.orientationDelegate supportedInterfaceOrientations];
-    }
+    // if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(supportedInterfaceOrientations)]) {
+    //     return [self.orientationDelegate supportedInterfaceOrientations];
+    // }
 
-    return 1 << UIInterfaceOrientationPortrait;
+    return 0;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
