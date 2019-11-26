@@ -237,13 +237,13 @@ static CDVWKInAppBrowser* instance = nil;
     }
     // Set Presentation Style
     UIModalPresentationStyle presentationStyle = UIModalPresentationFullScreen; // default
-    if (browserOptions.presentationstyle != nil) {
-        if ([[browserOptions.presentationstyle lowercaseString] isEqualToString:@"pagesheet"]) {
-            presentationStyle = UIModalPresentationPageSheet;
-        } else if ([[browserOptions.presentationstyle lowercaseString] isEqualToString:@"formsheet"]) {
-            presentationStyle = UIModalPresentationFormSheet;
-        }
-    }
+    // if (browserOptions.presentationstyle != nil) {
+    //     if ([[browserOptions.presentationstyle lowercaseString] isEqualToString:@"pagesheet"]) {
+    //         presentationStyle = UIModalPresentationPageSheet;
+    //     } else if ([[browserOptions.presentationstyle lowercaseString] isEqualToString:@"formsheet"]) {
+    //         presentationStyle = UIModalPresentationFormSheet;
+    //     }
+    // }
     self.inAppBrowserViewController.modalPresentationStyle = presentationStyle;
     
     // Set Transition Style
@@ -337,10 +337,7 @@ static CDVWKInAppBrowser* instance = nil;
                 strongSelf->tmpWindow = [[UIWindow alloc] initWithFrame:frame];
             }
             UIViewController *tmpController = [[UIViewController alloc] init];
-            if(osVersion >= 13){
-                [tmpController setModalPresentationStyle: UIModalPresentationFullScreen];
-            }
-            
+
             [strongSelf->tmpWindow setRootViewController:tmpController];
             [strongSelf->tmpWindow setWindowLevel:UIWindowLevelNormal];
 
