@@ -32,6 +32,12 @@
 
 - (void)pluginInitialize
 {
+  [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(orientationChanged:)
+     name:UIDeviceOrientationDidChangeNotification
+     object:[UIDevice currentDevice]];
+
     // default values
     self.usewkwebview = NO;
 
@@ -40,6 +46,29 @@
 #else
     self.wkwebviewavailable = NO;
 #endif
+}
+
+- (void) orientationChanged:(NSNotification *)note
+{
+    UIDevice * device = note.object;
+    switch(device.orientation)
+    {
+        case UIDeviceOrientationLandscapeLeft:
+        case UIDeviceOrientationLandscapeRight:
+        case UIDeviceOrientationPortraitUpsideDown:{
+            
+            /* start special animation */
+            NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+            [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+            [UINavigationController attemptRotationToDeviceOrientation];
+            [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+            };
+            break;
+            
+            
+        default:
+            break;
+    };
 }
 
 - (void)open:(CDVInvokedUrlCommand*)command
