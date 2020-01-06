@@ -17,6 +17,8 @@
  under the License.
  */
 
+#if !WK_WEB_VIEW_ONLY
+
 #import "CDVUIInAppBrowser.h"
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVUserAgentUtil.h>
@@ -1171,4 +1173,4 @@ static CDVUIInAppBrowser* instance = nil;
 
 @end
 
-
+#endif
