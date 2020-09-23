@@ -103,6 +103,7 @@ static CDVWKInAppBrowser* instance = nil;
     NSString* target = [command argumentAtIndex:1 withDefault:kInAppBrowserTargetSelf];
     NSString* options = [command argumentAtIndex:2 withDefault:@"" andClass:[NSString class]];
     NSString* headers = [command argumentAtIndex:3 withDefault:@"" andClass:[NSString class]];
+    self.inAppBrowserViewController.statusCode = 0;
 
     self.callbackId = command.callbackId;
     
@@ -533,6 +534,13 @@ static CDVWKInAppBrowser* instance = nil;
  * to the InAppBrowser plugin. Care has been taken that other callbacks cannot be triggered, and that no
  * other code execution is possible.
  */
+ - (void)webView:(WKWebView *)theWebView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+     
+     NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
+     self.inAppBrowserViewController.statusCode = [response statusCode];
+     decisionHandler(WKNavigationResponsePolicyAllow);
+ }
+
 - (void)webView:(WKWebView *)theWebView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     
     NSURL* url = navigationAction.request.URL;
@@ -656,6 +664,7 @@ static CDVWKInAppBrowser* instance = nil;
 {
     if (self.callbackId != nil) {
         NSString* url = [theWebView.URL absoluteString];
+        NSNumber* statusCode = [NSNumber numberWithInt:(int)self.inAppBrowserViewController.statusCode];
         if(url == nil){
             if(self.inAppBrowserViewController.currentURL != nil){
                 url = [self.inAppBrowserViewController.currentURL absoluteString];
@@ -664,7 +673,7 @@ static CDVWKInAppBrowser* instance = nil;
             }
         }
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                      messageAsDictionary:@{@"type":@"loadstop", @"url":url}];
+                                                      messageAsDictionary:@{@"type":@"loadstop", @"url":url, @"status_code": statusCode}];
         [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
         
         [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
@@ -1223,6 +1232,11 @@ BOOL isExiting = FALSE;
     }
     
     return [self.navigationDelegate didStartProvisionalNavigation:theWebView];
+}
+
+- (void)webView:(WKWebView *)theWebView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+    
+    [self.navigationDelegate webView:theWebView decidePolicyForNavigationResponse:navigationResponse decisionHandler:decisionHandler];
 }
 
 - (void)webView:(WKWebView *)theWebView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler

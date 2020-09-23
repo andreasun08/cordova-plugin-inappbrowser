@@ -151,6 +151,7 @@ public class InAppBrowser extends CordovaPlugin {
     private InAppBrowserClient currentClient;
     
     private HashMap <String, String> extraHeaders; //for additional custom request headers
+    private int statusCode = 0;
 
     /**
      * Executes the request and returns PluginResult.
@@ -162,6 +163,7 @@ public class InAppBrowser extends CordovaPlugin {
      */
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("open")) {
+            statusCode = 0;
             this.callbackContext = callbackContext;
             final String url = args.getString(0);
             String t = args.optString(1);
@@ -1481,10 +1483,20 @@ public class InAppBrowser extends CordovaPlugin {
 
                 // test push
 
+                obj.put("status_code", statusCode);
+
                 sendUpdate(obj, true);
             } catch (JSONException ex) {
                 LOG.d(LOG_TAG, "Should never happen");
             }
+        }
+
+        @Override
+        @TargetApi(Build.VERSION_CODES.M)
+        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+            super.onReceivedHttpError(view, request, errorResponse);
+            statusCode = errorResponse.getStatusCode();
+            // System.out.println("[loadstop onReceivedHttpError]" + String.valueOf(statusCode) + " | " + errorResponse.toString() );
         }
 
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
