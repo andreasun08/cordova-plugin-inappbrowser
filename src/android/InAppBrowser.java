@@ -1479,6 +1479,8 @@ public class InAppBrowser extends CordovaPlugin {
                 obj.put("type", LOAD_STOP_EVENT);
                 obj.put("url", url);
 
+                // test push
+
                 sendUpdate(obj, true);
             } catch (JSONException ex) {
                 LOG.d(LOG_TAG, "Should never happen");
